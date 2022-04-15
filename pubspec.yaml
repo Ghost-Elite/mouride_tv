@@ -36,11 +36,17 @@ dependencies:
   youtube_player_iframe: ^2.2.2
   retry: ^3.1.0
   jiffy: ^5.0.0
+  flutter_riverpod: ^1.0.3
   font_awesome_flutter: ^9.2.0
   cached_network_image: ^3.2.0
+  carousel_slider: ^4.0.0
   lottie: ^1.2.2
   better_player:
     path: better_player/
+  youtube_api:
+    path: youtube_api-0.8.0/
+  youtube_api_v3:
+    path: youtube_api_v3/
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
+import 'package:youtube_api/youtube_api.dart';
 import '../network/api.dart';
 import '../utils/constants.dart';
 import 'home.dart';
@@ -21,6 +22,34 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   ApiService? apiService;
   var logger =Logger();
+  bool isLoading = false;
+  YoutubeAPI? ytApi;
+  YoutubeAPI? ytApiPlaylist;
+  List<YT_API> ytResult = [];
+  List<YT_APIPlaylist> ytResultPlaylist = [];
+  bool isLoadingPlaylist = true;
+  String API_Key = 'AIzaSyDNYc6e906fgd6ZkRY63aMLCSQS0trbsew';
+  String API_CHANEL = 'UC-fP6AKyxBso2x6sGaG1J1w';
+  Future<void> callAPI() async {
+    //print('UI callled');
+    //await Jiffy.locale("fr");
+    ytResult = await ytApi!.channel(API_CHANEL);
+    setState(() {
+      //print('UI Updated');
+      isLoading = false;
+      callAPIPlaylist();
+    });
+  }
+  Future<void> callAPIPlaylist() async {
+    //print('UI callled');
+    //await Jiffy.locale("fr");
+    ytResultPlaylist = await ytApiPlaylist!.playlist(API_CHANEL);
+    setState(() {
+      print('UI Updated');
+      print(ytResultPlaylist[0].title);
+      isLoadingPlaylist = false;
+    });
+  }
   Future<ApiService?> fetchConnexion() async {
 
     try {
@@ -112,6 +141,9 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    ytApi = YoutubeAPI(API_Key, maxResults: 50, type: "video");
+    ytApiPlaylist = YoutubeAPI(API_Key, maxResults: 50, type: "playlist");
+    callAPI();
     fetchConnexion();
     startTime();
   }
@@ -162,12 +194,15 @@ class _SplashScreenState extends State<SplashScreen> {
   }
   Future<void> navigationPage()async {
     if(apiService !=null && apiService!=0){
-      logger.i('Ghost-Elite',apiService!.allitems![0].title);
+      logger.i('Ghost-Elite',apiService!.allitems![0].hlsUrl);
+
       Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(builder: (context) => HomePage(
-
-
+          dataUrl: apiService!.allitems![0].hlsUrl,
+          ytApi: ytApi,
+          ytResult: ytResult,
+          ytResultPlaylist: ytResultPlaylist,
         ),
         ),
             (Route<dynamic> route) => false,
