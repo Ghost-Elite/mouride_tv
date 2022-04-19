@@ -194,12 +194,13 @@ class _SplashScreenState extends State<SplashScreen> {
   }
   Future<void> navigationPage()async {
     if(apiService !=null && apiService!=0){
-      logger.i('Ghost-Elite',apiService!.allitems![0].hlsUrl);
+      logger.i('Ghost-Elite',apiService!.allitems![1].streamUrl);
 
       Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(builder: (context) => HomePage(
           dataUrl: apiService!.allitems![0].hlsUrl,
+          radioUrl: apiService!.allitems![1].streamUrl,
           ytApi: ytApi,
           ytResult: ytResult,
           ytResultPlaylist: ytResultPlaylist,

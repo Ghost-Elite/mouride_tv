@@ -11,20 +11,23 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:logger/logger.dart';
 import 'package:lottie/lottie.dart';
+import 'package:mouride_tv/pages/playlisYoutube.dart';
+import 'package:mouride_tv/pages/ytoubeplayer.dart';
 import 'package:retry/retry.dart';
 import 'package:http/http.dart' as http;
 import 'package:youtube_api/youtube_api.dart';
 import '../configs/size_config.dart';
 import '../network/api.dart';
 import '../utils/constants.dart';
+import 'drawer.dart';
 
 class HomePage extends StatefulWidget {
-  var dataUrl;
+  var dataUrl,radioUrl;
   YoutubeAPI? ytApi;
   YoutubeAPI? ytApiPlaylist;
   List<YT_API> ytResult = [];
   List<YT_APIPlaylist> ytResultPlaylist = [];
-  HomePage({Key? key,this.dataUrl,required this.ytResult,this.ytApi,required this.ytResultPlaylist,this.ytApiPlaylist}) : super(key: key);
+  HomePage({Key? key,this.dataUrl,required this.ytResult,this.ytApi,required this.ytResultPlaylist,this.ytApiPlaylist,this.radioUrl}) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -229,9 +232,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
 
   @override
   Widget build(BuildContext context) {
-    logger.i(' ghost-elite ',widget.ytResult[0].id);
-    logger.i(' ghost-elite ',widget.ytResultPlaylist.length);
-    logger.w('message',widget.dataUrl);
+    logger.w('message',widget.radioUrl);
     return Scaffold(
       key: scaffold,
       appBar: AppBar(
@@ -257,7 +258,13 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
             ),
           )
       ),
-      drawer: Drawer(),
+      drawer: DrawerPage(
+        ytResult: widget.ytResult,
+        ytResultPlaylist: widget.ytResultPlaylist,
+        ytApiPlaylist: widget.ytApiPlaylist,
+        dataUrl: widget.dataUrl,
+        radioUrl: widget.radioUrl,
+      ),
       body: Stack(
         children: [
           Container(
@@ -269,7 +276,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
                 children: [
                   Container(
                     width: SizeConfi.screenWidth,
-                    height: 170,
+                    height: 190,
                     color: Colors.black,
                     child: betterPlayerController !=null?
                     AspectRatio(
@@ -279,15 +286,114 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
                     ):Container(),
                   ),
                   Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: 40,
-                    color: ColorPalette.appColor,
+                    width: SizeConfi.screenWidth,
+                    height: SizeConfi.screenHeight! / 20,
+                    decoration: const BoxDecoration(
+                        color: ColorPalette.appColor,
+
+                    ),
+                    child: Container(
+                      padding: EdgeInsets.only(left: 45),
+                      alignment: Alignment.center,
+                      child: Row(
+                        children: [
+                          IconButton(onPressed: (){
+
+                          },
+                              icon: const Icon(
+                                Icons.tv,size: 30,color: ColorPalette.appWhiteColor,
+                              )
+                          ),
+                          Text('Mouride24 en Direct',style: GoogleFonts.inter(fontSize: 19,fontWeight: FontWeight.bold,color:ColorPalette.appWhiteColor),),
+                        ],
+                      ),
+                    ),
                   ),
-                  Text('data',style: TextStyle(color: ColorPalette.appWhiteColor),),
+                  Row(
+                    children: [
+                      InkWell(
+                        onTap: (){
+                          Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => YtoubePlayerPage(
+                                  videoId: widget.ytResult[0].url,
+                                  title: widget.ytResult[0].title,
+
+                                  ytResult: widget.ytResult, videos: [],
+                                  //apikey: API_Key,
+                                ),
+                              )
+                          );
+                        },
+                        child: Container(
+                          padding: EdgeInsets.only(right: 10,left: 10),
+                          child: Text(
+                            'Dernieres Videos',
+                            style: GoogleFonts.inter(
+                                fontSize: 13,
+                                color: ColorPalette.appTextColor,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ),
+                      IconButton(
+                        icon: const Icon(
+                          Icons.arrow_forward_ios,
+                          size: 20,
+                          color: ColorPalette.appIconPlayColor,
+                        ),
+                        onPressed: () {
+                          Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => YtoubePlayerPage(
+                                  videoId: widget.ytResult[0].url,
+                                  title: widget.ytResult[0].title,
+
+                                  ytResult: widget.ytResult, videos: [],
+                                  //apikey: API_Key,
+                                ),
+                              )
+                          );
+
+                        },
+                      )
+                    ],
+                  ),
                   SizedBox(height: 10,),
                   carousel(),
                   SizedBox(height: 10,),
-                  Text('data',style: TextStyle(color: ColorPalette.appWhiteColor),),
+                  Row(
+                    children: [
+                      Container(
+                        padding: EdgeInsets.only(right: 10,left: 10,bottom: 5),
+                        child: Text(
+                          'Playlists',
+                          style: GoogleFonts.inter(
+                              fontSize: 13,
+                              color: ColorPalette.appTextColor,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      IconButton(
+                        icon: const Icon(
+                          Icons.arrow_forward_ios,
+                          size: 20,
+                          color: ColorPalette.appTextColor,
+                        ),
+                        onPressed: () {
+                          Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => PlaylistYoutube(
+                                  ytResultPlaylist: widget.ytResultPlaylist,
+                                  //apikey: API_Key,
+                                ),
+                              )
+                          );
+
+                        },
+                      )
+                    ],
+                  ),
                   makeMostPopular()
                 ],
               ),
@@ -539,7 +645,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
                               child: Container(
                                 padding: const EdgeInsets.all(10),
                                 alignment: Alignment.bottomCenter,
-                                decoration: BoxDecoration(
+                                decoration: const BoxDecoration(
                                     image: DecorationImage(
                                         image: AssetImage("assets/images/degrade.png"),
                                         fit: BoxFit.cover
@@ -566,6 +672,17 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
 
                                   ),
                                   onTap: () {
+                                    Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          builder: (context) => YtoubePlayerPage(
+                                            videoId: widget.ytResult[i].url,
+                                            title: widget.ytResult[i].title,
+
+                                            ytResult: widget.ytResult, videos: [],
+                                            //apikey: API_Key,
+                                          ),
+                                        )
+                                        );
 
 
                                   }

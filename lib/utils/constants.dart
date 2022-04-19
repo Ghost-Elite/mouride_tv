@@ -7,6 +7,7 @@ class ColorPalette{
   static const Color appRadioColor = Color(0xFF8A9B57);
   static const Color appIconPlayColor = Color(0xFFF7C227);
   static const Color appTextColor = Color(0xFF000000);
+  static const Color appDivider = Color(0xFFC8C6C6);
 
 
 }
