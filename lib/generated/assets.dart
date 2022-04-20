@@ -10,7 +10,7 @@ class Assets {
   static const String imagesMenu = 'assets/images/menu.png';
   static const String imagesMenu1 = 'assets/images/menu1.png';
   static const String imagesPause = 'assets/images/pause.png';
-  static const String imagesPlay = 'assets/images/play.png';
+  static const String imagesPlayer = 'assets/images/player.png';
   static const String imagesRadio = 'assets/images/radio.png';
   static const String imagesSplashScreen = 'assets/images/SplashScreen.png';
   static const String imagesVignete = 'assets/images/vignete.jpeg';

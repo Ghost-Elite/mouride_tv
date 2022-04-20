@@ -8,10 +8,12 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:logger/logger.dart';
 import 'package:lottie/lottie.dart';
 import 'package:mouride_tv/pages/playlisYoutube.dart';
+import 'package:mouride_tv/pages/radioPlayerScreen.dart';
 import 'package:mouride_tv/pages/ytoubeplayer.dart';
 import 'package:retry/retry.dart';
 import 'package:http/http.dart' as http;
@@ -19,6 +21,7 @@ import 'package:youtube_api/youtube_api.dart';
 import '../configs/size_config.dart';
 import '../network/api.dart';
 import '../utils/constants.dart';
+import 'AllPlayListScreen.dart';
 import 'drawer.dart';
 
 class HomePage extends StatefulWidget {
@@ -456,11 +459,11 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
           ),
            Positioned(
               bottom: 144.0,
-              right: 24.0,
+              right: 20.0,
               child:  Container(
                 child:  Row(
                   children: <Widget>[
-                     ScaleTransition(
+                     /*ScaleTransition(
                       scale: _animation2!,
                       alignment: FractionalOffset.center,
                       child:  Container(
@@ -475,30 +478,54 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
                           ),
                         ),
                       ),
-                    ),
+                    )*/
 
                      ScaleTransition(
                       scale: _animation2!,
                       alignment: FractionalOffset.center,
                       child:  Material(
-                          color:  Color(0xFF00BFA5),
+                          color:  ColorPalette.appWhiteColor,
                           type: MaterialType.circle,
                           elevation: 6.0,
                           child:  GestureDetector(
                             child:  Container(
-                                width: 40.0,
-                                height: 40.0,
+                                width: 50.0,
+                                height: 50.0,
                                 child:  InkWell(
                                   onTap: (){
-                                    if(_angle == 45.0){
+                                    if(_angle == 50.0){
                                       print("foo2");
                                     }
                                   },
-                                  child:  const Center(
-                                    child:  Icon(
-                                      Icons.add,
-                                      color:  Color(0xFFFFFFFF),
-                                    ),
+                                  child:  Stack(
+                                    children: [
+                                      Positioned(
+                                        bottom: 9,
+                                        child: IconButton(
+                                          icon: const Icon(
+                                            Icons.radio,
+                                            color: ColorPalette.appColor,
+                                          ),
+                                          onPressed: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(builder: (context) => RadioPlayerScreen(
+                                                radioUrl: widget.radioUrl,
+                                              ),
+                                              ),
+
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                      Positioned(
+                                        bottom: 6,
+                                        left: 10,
+                                        child: Container(
+                                          child: Text('Actu',style: GoogleFonts.inter(color: ColorPalette.appTextColor,fontSize: 12),),
+                                        ),
+                                      )
+                                    ],
                                   ),
                                 )
                             ),
@@ -511,11 +538,11 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
           ),
            Positioned(
               bottom: 88.0,
-              right: 24.0,
+              right: 19.0,
               child:  Container(
                 child:  Row(
                   children: <Widget>[
-                     ScaleTransition(
+                     /*ScaleTransition(
                       scale: _animation!,
                       alignment: FractionalOffset.center,
                       child:  Container(
@@ -530,30 +557,48 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
                           ),
                         ),
                       ),
-                    ),
+                    ),*/
 
                      ScaleTransition(
                       scale: _animation!,
                       alignment: FractionalOffset.center,
                       child:  Material(
-                          color:  const Color(0xFFE57373),
+                          color:   ColorPalette.appWhiteColor,
                           type: MaterialType.circle,
                           elevation: 6.0,
                           child:  GestureDetector(
                             child:  Container(
-                                width: 40.0,
-                                height: 40.0,
+                                width: 50.0,
+                                height: 50.0,
                                 child:  InkWell(
                                   onTap: (){
-                                    if(_angle == 45.0){
+                                    if(_angle == 50.0){
                                       print("foo3");
                                     }
                                   },
-                                  child:  const Center(
-                                    child:  Icon(
-                                      Icons.add,
-                                      color:  Color(0xFFFFFFFF),
-                                    ),
+                                  child:  Stack(
+                                    children: [
+                                      Positioned(
+                                        bottom: 9,
+                                        child: IconButton(
+                                          icon: const FaIcon(
+                                            FontAwesomeIcons.book,
+                                            size: 19,
+                                            color: ColorPalette.appColor,
+                                          ),
+                                          onPressed: () {
+
+                                          },
+                                        ),
+                                      ),
+                                      Positioned(
+                                        bottom: 6,
+                                        left: 10,
+                                        child: Container(
+                                          child: Text('Actu',style: GoogleFonts.inter(color: ColorPalette.appTextColor,fontSize: 12),),
+                                        ),
+                                      )
+                                    ],
                                   ),
                                 )
                             ),
@@ -717,7 +762,14 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
             itemBuilder: (_, i) {
               return GestureDetector(
                 onTap: (){
-
+                  Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(
+                        builder: (context) => AllPlayListScreen(
+                          ytResult:widget.ytResultPlaylist[i],
+                          //apikey: API_Key,
+                        ),
+                      ),
+                          (Route<dynamic> route) => true);
                 },
                 child: SizedBox(
                   height: 160,

@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mouride_tv/pages/radioPlayerScreen.dart';
+import 'package:mouride_tv/pages/replayPage.dart';
+import 'package:mouride_tv/pages/youtubeVideoPlaylist.dart';
 import 'package:youtube_api/youtube_api.dart';
 
 import '../configs/size_config.dart';
@@ -113,7 +115,17 @@ class _DrawerPageState extends State<DrawerPage> {
             ),
             ListTile(
               onTap: (){
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ReplayPage(
+                    ytResult: widget.ytResult,
+                    ytResultPlaylist: widget.ytResultPlaylist,
+                    ytApiPlaylist: widget.ytApiPlaylist,
+                    ytApi: widget.ytApi,
+                  ),
+                  ),
 
+                );
               },
               leading: Positioned.fill(
                 child: Container(
@@ -164,13 +176,13 @@ class _DrawerPageState extends State<DrawerPage> {
             ),
             ListTile(
               onTap: (){
-                Navigator.pushAndRemoveUntil(
+                Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => RadioPlayerScreen(
                       radioUrl: widget.radioUrl,
                   ),
                   ),
-                      (Route<dynamic> route) => false,
+
                 );
               },
               leading: Positioned.fill(
@@ -272,7 +284,17 @@ class _DrawerPageState extends State<DrawerPage> {
             ),
             ListTile(
               onTap: (){
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => YoutubeVideoPlayList(
+                    ytResult: widget.ytResult,
+                    ytResultPlaylist: widget.ytResultPlaylist,
+                    ytApi: widget.ytApi,
+                    ytApiPlaylist: widget.ytApiPlaylist,
+                  ),
+                  ),
 
+                );
               },
               leading: Positioned.fill(
                 child: Container(

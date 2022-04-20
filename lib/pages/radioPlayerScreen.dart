@@ -8,10 +8,12 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:logger/logger.dart';
 import 'package:http/http.dart' as http;
+import 'package:share/share.dart';
 import 'package:volume/volume.dart';
 import 'package:wakelock/wakelock.dart';
 
 import '../configs/size_config.dart';
+import '../utils/constants.dart';
 
 
 
@@ -94,11 +96,11 @@ class _PlayerState extends State<RadioPlayerScreen> with WidgetsBindingObserver 
         if (_player != null) _player!.dispose();
       };
       await _player!.open(
-        Audio.liveStream('widget.radioUrl',
+        Audio.liveStream(widget.radioUrl,
             metas: Metas(
-                title: "",
+                title: "Mouride24 Radio",
                 artist: "Live",
-                image: MetasImage.asset("assets/images/vignete.png"))),
+                image: MetasImage.asset("assets/images/vignete.jpeg"))),
         autoStart: true,
         showNotification: true,
         notificationSettings: NotificationSettings(
@@ -140,7 +142,7 @@ class _PlayerState extends State<RadioPlayerScreen> with WidgetsBindingObserver 
 
   @override
   Widget build(BuildContext context) {
-    //logger.i("message ghost ",dataUrl['allitems'][0]['stream_url'].toString().trim());
+    logger.i("message ghost ",widget.radioUrl);
     final h = MediaQuery.of(context).size.height;
     final w = MediaQuery.of(context).size.width;
     Wakelock.enable();
@@ -152,13 +154,15 @@ class _PlayerState extends State<RadioPlayerScreen> with WidgetsBindingObserver 
 
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        backgroundColor: ColorPalette.appRadioColor,
         elevation: 0,
         centerTitle: true,
 
+        title: Text("Radio",style: GoogleFonts.roboto(fontSize: 22,fontWeight: FontWeight.bold),),
       ),
-      body: Container(
 
+      body: Container(
+        padding: const EdgeInsets.only(top: 50),
         decoration: const BoxDecoration(
           image: DecorationImage(
               image: AssetImage(
@@ -169,86 +173,130 @@ class _PlayerState extends State<RadioPlayerScreen> with WidgetsBindingObserver 
         ),
 
         child: Stack(
-          children: [
-            Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
+          children: <Widget>[
+            SizedBox(height: SizeConfi.screenHeight,),
 
-                      },
-                      child: Container(),
-                    ),
-                    Container(
-                      child: Column(
-                        children: [
-                          PlayerBuilder.isBuffering(
-                            player: _player!,
-                            builder: (context, isBuffering) {
-                              if (isBuffering) {
-                                return Column(
-                                  children: const [
-                                    CircularProgressIndicator(
-                                      backgroundColor: Colors.white,
-                                    ),
-                                    SizedBox(
-                                      height: 8,
-                                    )
-                                  ],
-                                );
-                              } else {
-                                return SizedBox(); //empty
-                              }
-                            },
-                          ),
-                          PlayerBuilder.isPlaying(
-                            player: _player!,
-                            builder: (context, isPlaying) {
-                              return GestureDetector(
-                                  onTap: () async {
-                                    //if(_player !=null)_player.dispose();
+            Container(
+              height: SizeConfi.screenHeight,
+              padding: const EdgeInsets.only(top: 10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisSize: MainAxisSize.max,
+                //mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
 
-                                    try {
-                                      await _player!.playOrPause();
+                  SizedBox(height: MediaQuery.of(context).size.height*0.6,),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
 
-                                      //await _player.pause();
-                                    } catch (t) {
-
-                                      print(t);
-                                    }
-                                    //if(_player !=null)_player.isPlaying;
-                                  },
-                                  child: isPlaying
-                                      ? const Image(
-                                    image: AssetImage(
-                                        "assets/images/pause.png"),
-
-                                    height: 54,
-                                    //color: Color(0xFF148BA4),
-                                  )
-                                      : const Image(
-                                    image: AssetImage(
-                                        "assets/images/play.png"),
-                                    height: 54,
-                                    //color: Color(0xFF148BA4),
-                                  ));
-                            },
-                          ),
-                        ],
+                        },
+                        child: IconButton(
+                          icon: const Icon(Icons.info,color: ColorPalette.appWhiteColor,),
+                          onPressed: () {},
+                        ),
                       ),
-                    ),
-                    Container(
-                      color: Colors.yellow,
-                      height: 10,
-                      width: 20,
-                    )
+                      Container(
+                        child: Column(
+                          children: [
+                            PlayerBuilder.isBuffering(
+                              player: _player!,
+                              builder: (context, isBuffering) {
+                                if (isBuffering) {
+                                  return Column(
+                                    children: const [
+                                      CircularProgressIndicator(
+                                        backgroundColor: Colors.white,
+                                      ),
+                                      SizedBox(
+                                        height: 8,
+                                      )
+                                    ],
+                                  );
+                                } else {
+                                  return SizedBox(); //empty
+                                }
+                              },
+                            ),
+                            PlayerBuilder.isPlaying(
+                              player: _player!,
+                              builder: (context, isPlaying) {
+                                return GestureDetector(
+                                    onTap: () async {
+                                      //if(_player !=null)_player.dispose();
 
-                  ],
-                )
-              ],
-            )
+                                      try {
+                                        await _player!.playOrPause();
+
+                                        //await _player.pause();
+                                      } catch (t) {
+
+                                        print(t);
+                                      }
+                                      //if(_player !=null)_player.isPlaying;
+                                    },
+                                    child: isPlaying
+                                        ? const Image(
+                                      image: AssetImage(
+                                          "assets/images/pause.png"),
+
+                                      height: 54,
+                                      //color: Color(0xFF148BA4),
+                                    )
+                                        : const Image(
+                                      image: AssetImage(
+                                          "assets/images/player.png"),
+                                      height: 54,
+                                      //color: Color(0xFF148BA4),
+                                    ));
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                      IconButton(
+                          onPressed: (){
+                            updateVolumes();
+
+                          },
+                          icon: const Icon(
+                            Icons.volume_up,
+                            color: Colors.white,
+                          )
+                      )
+                    ],
+                  ),
+                  const SizedBox(height: 40,),
+                  PlayerBuilder.isPlaying(
+                      player: _player!,
+                      builder: (context, isPlaying) {
+                        return Container(
+                          width: MediaQuery.of(context).size.width,
+                          //padding: EdgeInsets.only(bottom: 10.0),
+                          height: isPlaying
+                              ? Platform.isIOS
+                              ? 130
+                              : 150
+                              : 50,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: isPlaying
+                                  ? const AssetImage(
+                                  "assets/images/equalizer.gif")
+                                  : const AssetImage(
+                                  "assets/images/equalizerOff.png"),
+                              fit: BoxFit.fill,
+                            ),
+                          ),
+                        );
+                      }),
+                ],
+              ),
+            ),
+
+
           ],
         ),
       ),

@@ -99,12 +99,12 @@ class _AllPlayListState extends State<AllPlayListScreen> {
   Widget makeGridView(){
 
     return Container(
-      padding: EdgeInsets.fromLTRB(0, 95.0, 0, 0),
+      padding: const EdgeInsets.fromLTRB(0, 95.0, 0, 0),
       child: GridView.count(
         scrollDirection: Axis.vertical,
         crossAxisCount: 2 ,
         shrinkWrap: true,
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         crossAxisSpacing: 8,
         mainAxisSpacing: 4,
         children: List.generate(data==null?0:data["items"].length,(index){
@@ -139,11 +139,11 @@ class _AllPlayListState extends State<AllPlayListScreen> {
                             imageUrl: data["items"][index]["snippet"]["thumbnails"]["medium"]["url"],width: 100,height: 100,
                             fit: BoxFit.cover,
                             placeholder: (context, url) => Image.asset(
-                              "assets/images/vignete.png",width: 150,
+                              "assets/images/vignete.jpeg",width: 150,
                               fit: BoxFit.cover,
                             ),
                             errorWidget: (context, url, error) => Image.asset(
-                              "assets/images/vignete.png",width: 150,
+                              "assets/images/vignete.jpeg",width: 150,
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -159,7 +159,7 @@ class _AllPlayListState extends State<AllPlayListScreen> {
                           width: 60,
                           height: 60,
                           child: IconButton(
-                            icon: Icon(
+                            icon: const Icon(
                               Icons.play_circle_fill,
                               size: 37,
                               color: ColorPalette.appIconPlayColor,
