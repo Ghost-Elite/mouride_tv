@@ -8,13 +8,16 @@ class ColorPalette{
   static const Color appIconPlayColor = Color(0xFFF7C227);
   static const Color appTextColor = Color(0xFF000000);
   static const Color appDivider = Color(0xFFC8C6C6);
+  static const Color appActuColor = Color(0xFFC4C4C4);
 
 
 }
-/*
+
 const kLoading = ("assets/animation/loading.json");
+const kLoaded = ("assets/animation/loaded.json");
+const kLoadings = ("assets/animation/loadings.json");
 const kLoadingAnim = ("assets/animation/loadinganimation.json");
-const kLoadingError = ("assets/animation/error.json");*/
+const kLoadingError = ("assets/animation/error.json");
 class ApiKey{
   static const String API_Key = 'AIzaSyDNYc6e906fgd6ZkRY63aMLCSQS0trbsew';
   static const String API_CHANEL = 'UC-fP6AKyxBso2x6sGaG1J1w';

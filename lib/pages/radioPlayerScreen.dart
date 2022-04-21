@@ -201,25 +201,26 @@ class _PlayerState extends State<RadioPlayerScreen> with WidgetsBindingObserver 
                       Container(
                         child: Column(
                           children: [
-                            PlayerBuilder.isBuffering(
-                              player: _player!,
-                              builder: (context, isBuffering) {
-                                if (isBuffering) {
-                                  return Column(
-                                    children: const [
-                                      CircularProgressIndicator(
-                                        backgroundColor: Colors.white,
-                                      ),
-                                      SizedBox(
-                                        height: 8,
-                                      )
-                                    ],
-                                  );
-                                } else {
-                                  return SizedBox(); //empty
-                                }
-                              },
-                            ),
+                          PlayerBuilder.isBuffering(
+                          player: _player!,
+                          builder: (context, isBuffering) {
+
+                            if (isBuffering) {
+                              return Column(
+                                children: const [
+                                  CircularProgressIndicator(
+                                    backgroundColor: Colors.black,
+                                  ),
+                                  SizedBox(
+                                    height: 8,
+                                  )
+                                ],
+                              );
+                            } else {
+                              return SizedBox(); //empty
+                            }
+                          },
+                        ),
                             PlayerBuilder.isPlaying(
                               player: _player!,
                               builder: (context, isPlaying) {

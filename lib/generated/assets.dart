@@ -2,6 +2,11 @@
 class Assets {
   Assets._();
 
+  static const String animationError = 'assets/animation/error.json';
+  static const String animationLoaded = 'assets/animation/loaded.json';
+  static const String animationLoading = 'assets/animation/loading.json';
+  static const String animationLoadinganimation = 'assets/animation/loadinganimation.json';
+  static const String animationLoadings = 'assets/animation/loadings.json';
   static const String imagesDegrade = 'assets/images/degrade.png';
   static const String imagesDrawler = 'assets/images/drawler.png';
   static const String imagesEqualizer = 'assets/images/equalizer.gif';

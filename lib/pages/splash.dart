@@ -201,6 +201,7 @@ class _SplashScreenState extends State<SplashScreen> {
         MaterialPageRoute(builder: (context) => HomePage(
           dataUrl: apiService!.allitems![0].hlsUrl,
           radioUrl: apiService!.allitems![1].streamUrl,
+          actuUrl: apiService,
           ytApi: ytApi,
           ytResult: ytResult,
           ytResultPlaylist: ytResultPlaylist,

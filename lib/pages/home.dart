@@ -14,6 +14,7 @@ import 'package:logger/logger.dart';
 import 'package:lottie/lottie.dart';
 import 'package:mouride_tv/pages/playlisYoutube.dart';
 import 'package:mouride_tv/pages/radioPlayerScreen.dart';
+import 'package:mouride_tv/pages/replayPage.dart';
 import 'package:mouride_tv/pages/ytoubeplayer.dart';
 import 'package:retry/retry.dart';
 import 'package:http/http.dart' as http;
@@ -22,15 +23,17 @@ import '../configs/size_config.dart';
 import '../network/api.dart';
 import '../utils/constants.dart';
 import 'AllPlayListScreen.dart';
+import 'actualite.dart';
 import 'drawer.dart';
+import 'package:lottie/lottie.dart';
 
 class HomePage extends StatefulWidget {
-  var dataUrl,radioUrl;
+  var dataUrl,radioUrl,actuUrl;
   YoutubeAPI? ytApi;
   YoutubeAPI? ytApiPlaylist;
   List<YT_API> ytResult = [];
   List<YT_APIPlaylist> ytResultPlaylist = [];
-  HomePage({Key? key,this.dataUrl,required this.ytResult,this.ytApi,required this.ytResultPlaylist,this.ytApiPlaylist,this.radioUrl}) : super(key: key);
+  HomePage({Key? key,this.dataUrl,required this.ytResult,this.ytApi,required this.ytResultPlaylist,this.ytApiPlaylist,this.radioUrl,this.actuUrl}) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -45,6 +48,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
   Animation<double>? _animation;
   Animation<double>? _animation2;
   Animation<double>? _animation3;
+  Animation<double>? _animation4;
   BetterPlayerController? betterPlayerController;
   late final bool  videoLoading;
   ApiService? apiService;
@@ -75,16 +79,16 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
       DeviceOrientation.portraitDown,
     ],
     //autoDispose: true,
-    controlsConfiguration: const BetterPlayerControlsConfiguration(
-      /*loadingWidget: SizedBox(
+    controlsConfiguration:  BetterPlayerControlsConfiguration(
+      loadingWidget: SizedBox(
           width: 100,
           child: Lottie.asset(
-            kLoading,
+            kLoaded,
             width: 60,
             repeat: true,
             reverse: true,
           )
-      ),*/
+      ),
       iconsColor: ColorPalette.appWhiteColor,
       //controlBarColor: colorPrimary,
       controlBarColor: Colors.transparent,
@@ -205,6 +209,10 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
       parent: _controller!,
       curve: const Interval(0.8, 1.0, curve: Curves.linear),
     );
+    _animation4 = CurvedAnimation(
+      parent: _controller!,
+      curve: const Interval(0.11, 1.0, curve: Curves.linear),
+    );
 
 
     _controller!.reverse();
@@ -267,6 +275,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
         ytApiPlaylist: widget.ytApiPlaylist,
         dataUrl: widget.dataUrl,
         radioUrl: widget.radioUrl,
+        actuUrl: widget.actuUrl,
       ),
       body: Stack(
         children: [
@@ -402,13 +411,13 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
               ),
             ),
           ),
-           Positioned(
-              bottom: 200.0,
+          Positioned(
+              bottom: 220.0,
               right: 24.0,
               child:  Container(
                 child:  Row(
                   children: <Widget>[
-                     ScaleTransition(
+                    /*ScaleTransition(
                       scale: _animation3!,
                       alignment: FractionalOffset.center,
                       child:  Container(
@@ -423,13 +432,13 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
                           ),
                         ),
                       ),
-                    ),
+                    ),*/
 
-                     ScaleTransition(
-                      scale: _animation3!,
+                    ScaleTransition(
+                      scale: _animation4!,
                       alignment: FractionalOffset.center,
                       child:  Material(
-                          color:  Color(0xFF9E9E9E),
+                          color:  ColorPalette.appWhiteColor,
                           type: MaterialType.circle,
                           elevation: 6.0,
                           child:  GestureDetector(
@@ -438,15 +447,45 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
                                 height: 40.0,
                                 child:  InkWell(
                                   onTap: (){
-                                    if(_angle == 45.0){
-                                      print("foo1");
+                                    if(_angle == 50.0){
+
                                     }
                                   },
-                                  child:  const Center(
-                                    child:  Icon(
-                                      Icons.add,
-                                      color:  Color(0xFFFFFFFF),
-                                    ),
+                                  child:  Stack(
+                                    children: [
+                                      Positioned(
+                                        top: -2,
+                                        bottom: 10,
+                                        right: -4,
+                                        child: IconButton(
+                                          icon: const FaIcon(
+                                              FontAwesomeIcons.tv,
+                                              color: ColorPalette.appColor,
+                                            size: 15,
+                                          ),
+                                          onPressed: () {
+                                            Navigator.pushAndRemoveUntil(
+                                              context,
+                                              MaterialPageRoute(builder: (context) => HomePage(
+                                                dataUrl: widget.dataUrl,
+                                                ytApi: widget.ytApi,
+                                                ytResult: widget.ytResult,
+                                                ytResultPlaylist: widget.ytResultPlaylist,
+                                              ),
+                                              ),
+                                                  (Route<dynamic> route) => false,
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                      Positioned(
+                                        bottom: 6,
+                                        left: 8,
+                                        child: Container(
+                                          child: Text('Direct',style: GoogleFonts.inter(color: ColorPalette.appTextColor,fontSize: 9),),
+                                        ),
+                                      )
+                                    ],
                                   ),
                                 )
                             ),
@@ -458,8 +497,93 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
               )
           ),
            Positioned(
-              bottom: 144.0,
-              right: 20.0,
+              bottom: 176.0,
+              right: 24.0,
+              child:  Container(
+                child:  Row(
+                  children: <Widget>[
+                     /*ScaleTransition(
+                      scale: _animation3!,
+                      alignment: FractionalOffset.center,
+                      child:  Container(
+                        margin:  EdgeInsets.only(right: 16.0),
+                        child:  Text(
+                          'foo1',
+                          style:  TextStyle(
+                            fontSize: 13.0,
+                            fontFamily: 'Roboto',
+                            color:  Color(0xFF9E9E9E),
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),*/
+
+                     ScaleTransition(
+                      scale: _animation3!,
+                      alignment: FractionalOffset.center,
+                      child:  Material(
+                          color:  ColorPalette.appWhiteColor,
+                          type: MaterialType.circle,
+                          elevation: 6.0,
+                          child:  GestureDetector(
+                            child:  Container(
+                                width: 40.0,
+                                height: 40.0,
+                                child:  InkWell(
+                                  onTap: (){
+                                    if(_angle == 50.0){
+                                      print("foo2");
+                                    }
+                                  },
+                                  child:  Stack(
+                                    children: [
+                                      Positioned(
+                                        top: -2,
+                                        bottom: 10,
+                                        right: -4,
+                                        child: IconButton(
+                                          icon: const FaIcon(
+                                              FontAwesomeIcons.reply,
+                                              color: ColorPalette.appColor,
+                                            size: 15,
+                                          ),
+                                          onPressed: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(builder: (context) => ReplayPage(
+                                                ytResult: widget.ytResult,
+                                                ytResultPlaylist: widget.ytResultPlaylist,
+                                                ytApiPlaylist: widget.ytApiPlaylist,
+                                                ytApi: widget.ytApi,
+                                              ),
+                                              ),
+
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                      Positioned(
+                                        bottom: 6,
+                                        left: 6,
+                                        child: Container(
+                                          child: Text('Replay',style: GoogleFonts.inter(color: ColorPalette.appTextColor,fontSize: 9),),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                )
+                            ),
+                          )
+                      ),
+                    ),
+                  ],
+                ),
+              )
+          ),
+           Positioned(
+              bottom: 130.0,
+              right: 25.0,
               child:  Container(
                 child:  Row(
                   children: <Widget>[
@@ -489,8 +613,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
                           elevation: 6.0,
                           child:  GestureDetector(
                             child:  Container(
-                                width: 50.0,
-                                height: 50.0,
+                                width: 40.0,
+                                height: 40.0,
                                 child:  InkWell(
                                   onTap: (){
                                     if(_angle == 50.0){
@@ -500,11 +624,14 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
                                   child:  Stack(
                                     children: [
                                       Positioned(
-                                        bottom: 9,
+                                        top: -2,
+                                        bottom: 10,
+                                        right: -4,
                                         child: IconButton(
                                           icon: const Icon(
                                             Icons.radio,
                                             color: ColorPalette.appColor,
+                                            size: 15,
                                           ),
                                           onPressed: () {
                                             Navigator.push(
@@ -520,9 +647,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
                                       ),
                                       Positioned(
                                         bottom: 6,
-                                        left: 10,
+                                        left: 8,
                                         child: Container(
-                                          child: Text('Actu',style: GoogleFonts.inter(color: ColorPalette.appTextColor,fontSize: 12),),
+                                          child: Text('Radio',style: GoogleFonts.inter(color: ColorPalette.appTextColor,fontSize: 9),),
                                         ),
                                       )
                                     ],
@@ -537,8 +664,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
               )
           ),
            Positioned(
-              bottom: 88.0,
-              right: 19.0,
+              bottom: 84.0,
+              right: 25.0,
               child:  Container(
                 child:  Row(
                   children: <Widget>[
@@ -568,8 +695,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
                           elevation: 6.0,
                           child:  GestureDetector(
                             child:  Container(
-                                width: 50.0,
-                                height: 50.0,
+                                width: 40.0,
+                                height: 40.0,
                                 child:  InkWell(
                                   onTap: (){
                                     if(_angle == 50.0){
@@ -579,15 +706,24 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
                                   child:  Stack(
                                     children: [
                                       Positioned(
-                                        bottom: 9,
+                                        top: -2,
+                                        bottom: 10,
+                                        right: -4,
                                         child: IconButton(
                                           icon: const FaIcon(
                                             FontAwesomeIcons.book,
-                                            size: 19,
+                                            size: 15,
                                             color: ColorPalette.appColor,
                                           ),
                                           onPressed: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(builder: (context) => ActualitePage(
+                                                actuUrl: widget.actuUrl,
+                                              ),
+                                              ),
 
+                                            );
                                           },
                                         ),
                                       ),
@@ -595,7 +731,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
                                         bottom: 6,
                                         left: 10,
                                         child: Container(
-                                          child: Text('Actu',style: GoogleFonts.inter(color: ColorPalette.appTextColor,fontSize: 12),),
+                                          child: Text('Actu',style: GoogleFonts.inter(color: ColorPalette.appTextColor,fontSize: 9),),
                                         ),
                                       )
                                     ],

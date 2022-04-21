@@ -9,16 +9,18 @@ import 'package:youtube_api/youtube_api.dart';
 
 import '../configs/size_config.dart';
 import '../utils/constants.dart';
+import 'actualite.dart';
 import 'home.dart';
 
 class DrawerPage extends StatefulWidget {
   var dataUrl;
   var radioUrl;
+  var actuUrl;
   YoutubeAPI? ytApi;
   YoutubeAPI? ytApiPlaylist;
   List<YT_API> ytResult = [];
   List<YT_APIPlaylist> ytResultPlaylist = [];
-  DrawerPage({Key? key,required this.ytResult,this.ytApiPlaylist,required this.ytResultPlaylist,this.ytApi,this.dataUrl,this.radioUrl}) : super(key: key);
+  DrawerPage({Key? key,required this.ytResult,this.ytApiPlaylist,required this.ytResultPlaylist,this.ytApi,this.dataUrl,this.radioUrl,this.actuUrl}) : super(key: key);
 
   @override
   _DrawerPageState createState() => _DrawerPageState();
@@ -56,41 +58,39 @@ class _DrawerPageState extends State<DrawerPage> {
                       (Route<dynamic> route) => false,
                 );
               },
-              leading: Positioned.fill(
-                child: Container(
-                  width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
+              leading: Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(60),
-                  color: Colors.white,
-                  boxShadow: [
-                    BoxShadow(
-                        blurRadius: 5,
-                        offset: Offset(0, 1),
-                        color: Colors.grey.withOpacity(0.7)),
-                  ]
-            ),
-                  child: Center(
-                    child: IconButton(
-                      icon: const FaIcon(
-                        FontAwesomeIcons.tv,
-                        size: 20,
-                        color: ColorPalette.appColor,
-                      ),
-                      onPressed: () {
-                        Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(builder: (context) => HomePage(
-                            dataUrl: widget.dataUrl,
-                            ytApi: widget.ytApi,
-                            ytResult: widget.ytResult,
-                            ytResultPlaylist: widget.ytResultPlaylist,
-                          ),
-                          ),
-                              (Route<dynamic> route) => false,
-                        );
-                      },
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(
+                          blurRadius: 5,
+                          offset: Offset(0, 1),
+                          color: Colors.grey.withOpacity(0.7)),
+                    ]
+                ),
+                child: Center(
+                  child: IconButton(
+                    icon: const FaIcon(
+                      FontAwesomeIcons.tv,
+                      size: 20,
+                      color: ColorPalette.appColor,
                     ),
+                    onPressed: () {
+                      Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(builder: (context) => HomePage(
+                          dataUrl: widget.dataUrl,
+                          ytApi: widget.ytApi,
+                          ytResult: widget.ytResult,
+                          ytResultPlaylist: widget.ytResultPlaylist,
+                        ),
+                        ),
+                            (Route<dynamic> route) => false,
+                      );
+                    },
                   ),
                 ),
               ),
@@ -127,31 +127,29 @@ class _DrawerPageState extends State<DrawerPage> {
 
                 );
               },
-              leading: Positioned.fill(
-                child: Container(
-                  width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(60),
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                            blurRadius: 5,
-                            offset: Offset(0, 1),
-                            color: Colors.grey.withOpacity(0.7)),
-                      ]
-                  ),
-                  child: Center(
-                    child: IconButton(
-                      icon: const FaIcon(
-                        FontAwesomeIcons.reply,
-                        size: 20,
-                        color: ColorPalette.appColor,
-                      ),
-                      onPressed: () {
-
-                      },
+              leading: Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(60),
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(
+                          blurRadius: 5,
+                          offset: Offset(0, 1),
+                          color: Colors.grey.withOpacity(0.7)),
+                    ]
+                ),
+                child: Center(
+                  child: IconButton(
+                    icon: const FaIcon(
+                      FontAwesomeIcons.reply,
+                      size: 20,
+                      color: ColorPalette.appColor,
                     ),
+                    onPressed: () {
+
+                    },
                   ),
                 ),
               ),
@@ -185,30 +183,28 @@ class _DrawerPageState extends State<DrawerPage> {
 
                 );
               },
-              leading: Positioned.fill(
-                child: Container(
-                  width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(60),
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                            blurRadius: 5,
-                            offset: Offset(0, 1),
-                            color: Colors.grey.withOpacity(0.7)),
-                      ]
-                  ),
-                  child: Center(
-                    child: IconButton(
-                      icon: Icon(
-                          Icons.radio,
-                        color: ColorPalette.appColor,
-                      ),
-                      onPressed: () {
-
-                      },
+              leading: Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(60),
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(
+                          blurRadius: 5,
+                          offset: Offset(0, 1),
+                          color: Colors.grey.withOpacity(0.7)),
+                    ]
+                ),
+                child: Center(
+                  child: IconButton(
+                    icon: Icon(
+                      Icons.radio,
+                      color: ColorPalette.appColor,
                     ),
+                    onPressed: () {
+
+                    },
                   ),
                 ),
               ),
@@ -233,33 +229,38 @@ class _DrawerPageState extends State<DrawerPage> {
             ),
             ListTile(
               onTap: (){
-
-              },
-              leading: Positioned.fill(
-                child: Container(
-                  width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(60),
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                            blurRadius: 5,
-                            offset: Offset(0, 1),
-                            color: Colors.grey.withOpacity(0.7)),
-                      ]
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ActualitePage(
+                    actuUrl: widget.actuUrl,
                   ),
-                  child: Center(
-                    child: IconButton(
-                      icon: const FaIcon(
-                        FontAwesomeIcons.book,
-                        size: 20,
-                        color: ColorPalette.appColor,
-                      ),
-                      onPressed: () {
+                  ),
 
-                      },
+                );
+              },
+              leading: Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(60),
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(
+                          blurRadius: 5,
+                          offset: Offset(0, 1),
+                          color: Colors.grey.withOpacity(0.7)),
+                    ]
+                ),
+                child: Center(
+                  child: IconButton(
+                    icon: const FaIcon(
+                      FontAwesomeIcons.book,
+                      size: 20,
+                      color: ColorPalette.appColor,
                     ),
+                    onPressed: () {
+
+                    },
                   ),
                 ),
               ),
@@ -296,31 +297,29 @@ class _DrawerPageState extends State<DrawerPage> {
 
                 );
               },
-              leading: Positioned.fill(
-                child: Container(
-                  width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(60),
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                            blurRadius: 5,
-                            offset: Offset(0, 1),
-                            color: Colors.grey.withOpacity(0.7)),
-                      ]
-                  ),
-                  child: Center(
-                    child: IconButton(
-                      icon: const FaIcon(
-                        FontAwesomeIcons.youtube,
-                        size: 20,
-                        color: ColorPalette.appColor,
-                      ),
-                      onPressed: () {
-
-                      },
+              leading: Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(60),
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(
+                          blurRadius: 5,
+                          offset: Offset(0, 1),
+                          color: Colors.grey.withOpacity(0.7)),
+                    ]
+                ),
+                child: Center(
+                  child: IconButton(
+                    icon: const FaIcon(
+                      FontAwesomeIcons.youtube,
+                      size: 20,
+                      color: ColorPalette.appColor,
                     ),
+                    onPressed: () {
+
+                    },
                   ),
                 ),
               ),
@@ -347,31 +346,29 @@ class _DrawerPageState extends State<DrawerPage> {
               onTap: (){
 
               },
-              leading: Positioned.fill(
-                child: Container(
-                  width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(60),
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                            blurRadius: 5,
-                            offset: Offset(0, 1),
-                            color: Colors.grey.withOpacity(0.7)),
-                      ]
-                  ),
-                  child: Center(
-                    child: IconButton(
-                      icon: const FaIcon(
-                        FontAwesomeIcons.facebook,
-                        size: 20,
-                        color: ColorPalette.appColor,
-                      ),
-                      onPressed: () {
-
-                      },
+              leading: Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(60),
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(
+                          blurRadius: 5,
+                          offset: Offset(0, 1),
+                          color: Colors.grey.withOpacity(0.7)),
+                    ]
+                ),
+                child: Center(
+                  child: IconButton(
+                    icon: const FaIcon(
+                      FontAwesomeIcons.facebook,
+                      size: 20,
+                      color: ColorPalette.appColor,
                     ),
+                    onPressed: () {
+
+                    },
                   ),
                 ),
               ),
@@ -398,31 +395,29 @@ class _DrawerPageState extends State<DrawerPage> {
               onTap: (){
 
               },
-              leading: Positioned.fill(
-                child: Container(
-                  width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(60),
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                            blurRadius: 5,
-                            offset: Offset(0, 1),
-                            color: Colors.grey.withOpacity(0.7)),
-                      ]
-                  ),
-                  child: Center(
-                    child: IconButton(
-                      icon: const FaIcon(
-                        FontAwesomeIcons.lock,
-                        size: 20,
-                        color: ColorPalette.appColor,
-                      ),
-                      onPressed: () {
-
-                      },
+              leading: Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(60),
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(
+                          blurRadius: 5,
+                          offset: Offset(0, 1),
+                          color: Colors.grey.withOpacity(0.7)),
+                    ]
+                ),
+                child: Center(
+                  child: IconButton(
+                    icon: const FaIcon(
+                      FontAwesomeIcons.lock,
+                      size: 20,
+                      color: ColorPalette.appColor,
                     ),
+                    onPressed: () {
+
+                    },
                   ),
                 ),
               ),
@@ -449,31 +444,29 @@ class _DrawerPageState extends State<DrawerPage> {
               onTap: (){
 
               },
-              leading: Positioned.fill(
-                child: Container(
-                  width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(60),
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                            blurRadius: 5,
-                            offset: Offset(0, 1),
-                            color: Colors.grey.withOpacity(0.7)),
-                      ]
-                  ),
-                  child: Center(
-                    child: IconButton(
-                      icon: const FaIcon(
-                        FontAwesomeIcons.exclamationCircle,
-                        size: 20,
-                        color: ColorPalette.appColor,
-                      ),
-                      onPressed: () {
-
-                      },
+              leading: Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(60),
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(
+                          blurRadius: 5,
+                          offset: Offset(0, 1),
+                          color: Colors.grey.withOpacity(0.7)),
+                    ]
+                ),
+                child: Center(
+                  child: IconButton(
+                    icon: const FaIcon(
+                      FontAwesomeIcons.exclamationCircle,
+                      size: 20,
+                      color: ColorPalette.appColor,
                     ),
+                    onPressed: () {
+
+                    },
                   ),
                 ),
               ),
